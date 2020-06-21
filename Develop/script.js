@@ -7,13 +7,15 @@ var numberEl = document.getElementById("number");
 var symbolEl = document.getElementById("symbol");
 var generateEl = document.getElementById("generate");
 
+// Objectb elements for password generation
 var passwordItems = {
-  lowerCase: getRandomLowerCase,
-  upperCase: getRandomUpperCase,
-  symbols: getRandomSymbol,
+  lower: getRandomLowerCase,
+  upper: getRandomUpperCase,
   numbers: getRandomNumber,
-}
+  symbols: getRandomSymbol,
+};
 
+// Add event listener to generate button
 generateEl.addEventListener("click", function () {
   var length = +lengthEl.value;
   var isUpperCase = upperCaseEl.checked;
@@ -21,10 +23,31 @@ generateEl.addEventListener("click", function () {
   var isNumber = numberEl.checked;
   var isSymbol = symbolEl.checked;
 
-  passwordEl.innerText = writePassword(isUpperCase, isLowerCase, isNumber, isSymbol, length);
+  passwordEl.innerText = generatePassword(isUpperCase, isLowerCase, isNumber, isSymbol, length);
 });
 
+// Function for generating the password
+function generatePassword(upper, lower, number, symbol, length) {
 
+  var generatedPassword = "";
+
+  var optionsAmount = upper + lower + number + symbol;
+
+  var optionsArr = [{ upper }, { lower }, { number }, { symbol }].filter(option => Object.values(option)[0]);
+
+  if (optionsAmount === 0) {
+    return " ";
+  }
+
+  for (var i = 0; i < length; i += optionsAmount) {
+    optionsArr.forEach(option => {
+      var passName = Object.keys(option)[0];
+      console.log("passName: ", passName);
+
+      generatedPassword += passwordItems[passName]();
+    });
+  }
+};
 
 
 
@@ -44,19 +67,3 @@ function getRandomSymbol() {
   var symbol = "!@#$%^&*()_-+={}[]:;,.<>/?"
   return symbol[Math.floor(Math.random() * symbol.length)];
 }
-
-
-// Get references to the #generate element
-var generateBtn = document.querySelector("#generate");
-
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-
-}
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
