@@ -9,19 +9,19 @@ var generateEl = document.getElementById("generate");
 
 // Objectb elements for password generation
 var passwordItems = {
-  lower: getRandomLowerCase,
-  upper: getRandomUpperCase,
-  numbers: getRandomNumber,
-  symbols: getRandomSymbol,
+  lower: getRandomLowerCase(),
+  upper: getRandomUpperCase(),
+  numbers: getRandomNumber(),
+  symbols: getRandomSymbol(),
 };
 
 // Add event listener to generate button
 generateEl.addEventListener("click", function () {
-  var length = +lengthEl.value;
   var isUpperCase = upperCaseEl.checked;
   var isLowerCase = lowerCaseEl.checked;
   var isNumber = numberEl.checked;
   var isSymbol = symbolEl.checked;
+  var length = +lengthEl.value;
 
   passwordEl.innerText = generatePassword(isUpperCase, isLowerCase, isNumber, isSymbol, length);
 });
@@ -29,7 +29,7 @@ generateEl.addEventListener("click", function () {
 // Function for generating the password
 function generatePassword(upper, lower, number, symbol, length) {
 
-  var generatedPassword = "";
+  let generatedPassword = "";
 
   var optionsAmount = upper + lower + number + symbol;
 
@@ -44,12 +44,14 @@ function generatePassword(upper, lower, number, symbol, length) {
       var passName = Object.keys(option)[0];
       console.log("passName: ", passName);
 
-      generatedPassword += passwordItems[passName]();
+      generatedPassword += passwordItems[passName];
     });
   }
+
+  var createdPassword = generatedPassword.slice(0, length);
+
+  return createdPassword;
 };
-
-
 
 function getRandomLowerCase() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
@@ -64,6 +66,8 @@ function getRandomNumber() {
 }
 
 function getRandomSymbol() {
-  var symbol = "!@#$%^&*()_-+={}[]:;,.<>/?"
+ 
+  var symbol = ['!','@','#','$','%','^','&','*','(',')','_','-','+','=','{'];
+  console.log(symbol[Math.floor(Math.random() * symbol.length)]);
   return symbol[Math.floor(Math.random() * symbol.length)];
 }
