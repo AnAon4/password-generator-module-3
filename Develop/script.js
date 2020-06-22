@@ -7,7 +7,7 @@ var numberEl = document.getElementById("number");
 var symbolEl = document.getElementById("symbol");
 var generateEl = document.getElementById("generate");
 
-// Objectb elements for password generation
+// Object elements for password generation
 var passwordItems = {
   lower: getRandomLowerCase(),
   upper: getRandomUpperCase(),
@@ -36,7 +36,7 @@ function generatePassword(upper, lower, number, symbol, length) {
   var optionsArr = [{ upper }, { lower }, { number }, { symbol }].filter(option => Object.values(option)[0]);
 
   if (optionsAmount === 0) {
-    return " ";
+    return "Have at least one option selected.";
   }
 
   for (var i = 0; i < length; i += optionsAmount) {
